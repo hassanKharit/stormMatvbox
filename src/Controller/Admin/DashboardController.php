@@ -12,20 +12,34 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
+
+    public function index(): Response
+    {
+        $routeBuilder = $this->get(AdminUrlGenerator::class);
+
+        return $this->redirect($routeBuilder->setController(OrderCrudController::class)->generateUrl());
+
+        // return parent::index();
+        //    return $this->render('admin/dashboard/index.html.twig', [
+        //         'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
+        //         'dashboard_controller_class' => (new \ReflectionClass(static::class))->getShortName(),
+        //     ]);
+    }
 //    public function index(): Response
 //    {
 //        return parent::index();
 //    }
-    public function index(): Response
-    {
-        return $this->render('admin/dashboard.html.twig');
-    }
+//    public function index(): Response
+//    {
+//        return $this->render('admin/dashboard.html.twig');
+//    }
 
     public function configureDashboard(): Dashboard
     {
@@ -33,10 +47,10 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Ma box tv');
     }
 
-    public static function getEntityFqcn(): string
-    {
-        return Order::class;
-    }
+//    public static function getEntityFqcn(): string
+//    {
+//        return Order::class;
+//    }
 
     public function configureMenuItems(): iterable
     {
